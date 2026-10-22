@@ -1,0 +1,9 @@
+{
+  "source": "NASA POWER Daily Point API",
+  "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+  "parameters": {"ALLSKY_SFC_SW_DWN": "kWh/m^2/day", "T2M": "C"},
+  "community": "RE",
+  "coordinates": {"latitude": -18.0066, "longitude": -70.2463, "label": "Tacna, Peru"},
+  "period": {"start": "2015-01-01", "end": "2024-12-31"},
+  "source_metadata": "NASA POWER API response, source MERRA2/SYN1DEG"
+}
