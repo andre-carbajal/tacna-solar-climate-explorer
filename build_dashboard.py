@@ -44,10 +44,11 @@ callback = CustomJS(args=dict(source=source, month_source=month_source, metric=m
                               solar=all_data["solar"], temperature=all_data["temperature"], line=line, bar=bar), code="""
 const key = metric.value, selected = Number(year.value), vals = key === 'solar' ? solar : temperature;
 const xs = [], ys = [], sums = Array(12).fill(0), counts = Array(12).fill(0);
-for (let i = 0; i < years.length; i++) if (years[i] === selected) {
+years.forEach((value, i) => {
+  if (value !== selected) return;
   xs.push(new Date(dates[i] + 'T00:00:00Z')); ys.push(vals[i]);
   sums[months[i]-1] += vals[i]; counts[months[i]-1]++;
-}
+});
 source.data = {date: xs, value: ys}; source.change.emit();
 month_source.data = {month: Array.from({length:12}, (_,i)=>String(i+1)), value:sums.map((v,i)=>counts[i] ? v/counts[i] : 0)}; month_source.change.emit();
 const solarMode = key === 'solar';
