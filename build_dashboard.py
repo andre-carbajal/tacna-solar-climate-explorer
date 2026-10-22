@@ -31,12 +31,12 @@ line = figure(height=330, sizing_mode="stretch_width", x_axis_type="datetime", t
 line.line("date", "value", source=source, line_width=3, color="#e87935")
 line.scatter("date", "value", source=source, size=3, alpha=.45, color="#e87935")
 line.xaxis.axis_label = "Date"
-line.yaxis[0].axis_label = "Daily solar radiation (kWh/m²/day)"
+line.yaxis[0].axis_label = "Daily value · selected measure"
 line.title.text = "Daily signal"
 bar = figure(height=280, sizing_mode="stretch_width", x_range=[str(i) for i in range(1, 13)], tools="", toolbar_location=None)
 bar.vbar(x="month", top="value", source=month_source, width=.72, color="#1e8a83")
 bar.xaxis.axis_label = "Month"
-bar.yaxis[0].axis_label = "Monthly mean · kWh/m²/day"
+bar.yaxis[0].axis_label = "Monthly mean · selected measure"
 bar.title.text = "Seasonality · monthly mean"
 
 callback = CustomJS(args=dict(source=source, month_source=month_source, metric=metric, year=year,
@@ -51,11 +51,7 @@ years.forEach(function(value, i) {
 });
 source.data = {date: xs, value: ys}; source.change.emit();
 month_source.data = {month: Array.from({length:12}, function(_,i) { return String(i+1); }), value:sums.map(function(v,i) { return counts[i] ? v/counts[i] : 0; })}; month_source.change.emit();
-const solarMode = key === 'solar';
-line.yaxis[0].axis_label = solarMode ? 'Daily solar radiation (kWh/m²/day)' : 'Daily air temperature (°C)';
-line.title.text = `${solarMode ? 'Solar radiation' : 'Air temperature'} · ${selected}`;
-bar.yaxis[0].axis_label = solarMode ? 'Monthly mean · kWh/m²/day' : 'Monthly mean · °C';
-bar.title.text = `Seasonality · monthly mean · ${selected}`;
+
 """)
 metric.js_on_change("value", callback); year.js_on_change("value", callback)
 header = Div(text="""
