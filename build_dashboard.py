@@ -1,6 +1,6 @@
 from pathlib import Path
 import csv
-from datetime import date
+from datetime import date, datetime
 from bokeh.layouts import column, row
 from bokeh.models import ColumnDataSource, CustomJS, Div, Select
 from bokeh.plotting import figure, save
@@ -17,7 +17,7 @@ YEARS = sorted(set(all_data["year"]))
 
 # The committed NASA snapshot keeps the public page reproducible and independent of a runtime API.
 def for_year(key, selected):
-    return [(date.fromisoformat(d), vals) for d, y, vals in zip(all_data["date"], all_data["year"], all_data[key]) if y == selected]
+    return [(datetime.combine(date.fromisoformat(d), datetime.min.time()), vals) for d, y, vals in zip(all_data["date"], all_data["year"], all_data[key]) if y == selected]
 initial = for_year("solar", YEARS[-1])
 source = ColumnDataSource(data={"date": [r[0] for r in initial], "value": [r[1] for r in initial]})
 sums = [0.0] * 12; counts = [0] * 12
